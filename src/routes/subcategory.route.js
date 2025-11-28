@@ -5,6 +5,7 @@ const SubCategoryController = require('../controllers/subcategory.controller.js'
 const CategoryRepository = require('../repositories/category.repositories.js');
 const ProductRepository = require('../repositories/product.repositories.js');
 const subcategoryValidator = require('../validators/subCategory.validator.js')
+const middleware = require('../middlewares/auth.middleware.js')
 const router = express.Router();
 
 const subCategoryRepository = new SubCategoryRepository()
@@ -13,10 +14,10 @@ const productRepository = new ProductRepository()
 const subCategoryService = new SubCategoryService(subCategoryRepository, categoryRepository, productRepository);
 const subCategoryController = new SubCategoryController(subCategoryService);
 
-router.post("/createSubCategory/:categoryName", subcategoryValidator.createSubCategory, subCategoryController.createSubCategory);
-router.get("/subcategory", subCategoryController.getAllSubCategory)
-router.patch("/updateSubCategory", subcategoryValidator.updateSubCategory, subCategoryController.updateSubCategory)
-router.delete("/deleteSubCategory", subCategoryController.deleteSubCategory)
+router.post("/createSubCategory/:categoryName", middleware.authenticate, subcategoryValidator.createSubCategory, subCategoryController.createSubCategory);
+router.get("/subcategory", middleware.authenticate, subCategoryController.getAllSubCategory)
+router.patch("/updateSubCategory", middleware.authenticate, subcategoryValidator.updateSubCategory, subCategoryController.updateSubCategory)
+router.delete("/deleteSubCategory", middleware.authenticate, subCategoryController.deleteSubCategory)
 
 
 module.exports = router;

@@ -5,7 +5,7 @@ class AuthRepository {
             const insertQuery = await UserModel.create({
                 mobile: req.mobile,
                 otp: req.otp
-                
+
             });
             return insertQuery;
         } catch (error) {
@@ -35,10 +35,10 @@ class AuthRepository {
     }
 
     async findUserByMobile(mobile) {
-        try{
+        try {
             const user = await UserModel.findOne(mobile);
             return user
-        } catch(error){
+        } catch (error) {
             throw error
         }
     }
